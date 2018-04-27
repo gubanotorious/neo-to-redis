@@ -4,9 +4,14 @@ Proof of Concept Project to copy the NEO Blockchain to Redis DB and Redis Stream
 ## Purpose
 This will read blocks from [neo-cli](https://github.com/neo-project/neo-cli) and write both the raw and serialized object representations of the blocks to [Redis DB and Redis Streams API](https://github.com/antirez/redis) to act as a test harness as well as allow for visualization / testing of the NEO Blockchain.
 
+#### Redis DB
 <p align="center">
-  <img src="NeoRedis.JPG" width="350" />
-  <img src="NeoRedisStreams.JPG" width="350"/>
+  <img src="NeoRedisStreams.JPG" width="650"/>
+</p>
+
+#### Redis Streams
+<p align="center">
+  <img src="NeoRedisStreams.JPG" width="650"/>
 </p>
 
 ## Requirements
