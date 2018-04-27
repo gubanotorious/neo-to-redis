@@ -8,4 +8,6 @@ This will read blocks from [neo-cli](https://github.com/neo-project/neo-cli) and
 </p>
 
 ## Requirements
+[neo-cli](https://github.com/neo-project/neo-cli) needs to be installed and running.
+
 [redis-unstable-docker](https://github.com/gubanotorious/redis-unstable-docker) needs to be installed / running to enable Redis Streams API Support.
