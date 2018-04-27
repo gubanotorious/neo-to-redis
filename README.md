@@ -6,7 +6,7 @@ This will read blocks from [neo-cli](https://github.com/neo-project/neo-cli) and
 
 #### Redis DB
 <p align="center">
-  <img src="NeoRedisStreams.JPG" width="650"/>
+  <img src="NeoRedis.JPG" width="650"/>
 </p>
 
 #### Redis Streams
