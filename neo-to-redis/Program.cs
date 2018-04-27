@@ -44,8 +44,6 @@ namespace neo_to_redis
                 var jsonRaw = (string)_neo.GetRawBlock(index, true);
                 var bytesRaw = (byte[])_neo.GetRawBlock(index, false);
 
-
-
                 //Get the converted json block (test our json serializers)
                 var jsonBlock = _neo.GetBlock(index, true);
                 Console.WriteLine("-Retrieved Hash:" + jsonBlock.Hash + ", Raw Length: " + bytesRaw.Length);
