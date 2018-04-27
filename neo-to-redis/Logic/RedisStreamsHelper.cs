@@ -15,16 +15,6 @@ namespace neo_to_redis
         }
 
         /// <summary>
-        /// Returns the number of elements in the specified stream
-        /// </summary>
-        /// <param name="streamName">Name of the stream</param>
-        /// <returns>Number of elements in the specified stream</returns>
-        public RedisResult XLen(RedisValue streamName)
-        {
-            return _redisDb.Execute("XLEN", streamName);
-        }
-
-        /// <summary>
         /// Appends an element to the specified stream
         /// </summary>
         /// <param name="streamName">Name of the stream</param>
@@ -39,49 +29,5 @@ namespace neo_to_redis
 
             return _redisDb.Execute("XADD", streamName, id.Value, key, value);
         }
-
-        /// <summary>
-        /// Retrieves a range of elements from the specified stream
-        /// </summary>
-        /// <param name="streamName">Name of the stream</param>
-        /// <param name="start">The identifier or timestamp in ms of the range start</param>
-        /// <param name="end">The identifier or timestamp in ms of the range end</param>
-        /// <returns></returns>
-        public List<RedisStreamEntry> XRange(RedisValue streamName, RedisValue? start, RedisValue? end)
-        {
-            if (!start.HasValue && !end.HasValue)
-            {
-                //Return all results
-                start = "-";
-                end = "+";
-            }
-            //If only a single value is provided, assume they are targeting a single record
-            else if (start.HasValue && !end.HasValue)
-                end = start;
-            else if (!start.HasValue && end.HasValue)
-                start = end;
-
-            List<RedisStreamEntry> entries = new List<RedisStreamEntry>();
-            var res = _redisDb.Execute("XRANGE", streamName, start, end);
-            foreach (RedisResult[] item in (RedisResult[])res)
-            {
-                var keyValue = (RedisResult[])item[1];
-                entries.Add(new RedisStreamEntry
-                {
-                    Id = item[0],
-                    Key = keyValue[0],
-                    Value = keyValue[1]
-                });
-            }
-
-            return entries;
-        }
-    }
-
-    public class RedisStreamEntry
-    {
-        public RedisResult Id { get; set; }
-        public RedisResult Key { get; set; }
-        public RedisResult Value { get; set; }
     }
 }
