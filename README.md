@@ -6,12 +6,12 @@ This will read blocks from [neo-cli](https://github.com/neo-project/neo-cli) and
 
 #### Redis DB
 <p align="center">
-  <img src="NeoRedis.JPG" />
+  <img src="NeoRedis.JPG" style="width:50%;"/>
 </p>
 
 #### Redis Streams API
 <p align="center">
-  <img src="NeoRedisStreams.JPG" />
+  <img src="NeoRedisStreams.JPG" style="width:50%;" />
 </p>
 
 ## Requirements
