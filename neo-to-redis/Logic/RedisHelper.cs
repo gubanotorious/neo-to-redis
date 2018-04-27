@@ -13,9 +13,9 @@ namespace neo_to_redis
             _redisDb = redis.GetDatabase();
         }
 
-        public void Set(string key, object value)
+        public void Set(RedisKey key, RedisValue val)
         {
-
+            _redisDb.StringSet(key, val);
         }
     }
 }
