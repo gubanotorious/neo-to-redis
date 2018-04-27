@@ -1,2 +1,2 @@
 # neo-to-redis
-Project to replicate the NEO Blockchain to redis
+Project to copy the NEO Blockchain to Redis DB and Redis Streams API
