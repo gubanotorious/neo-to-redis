@@ -24,28 +24,33 @@ namespace neo_to_redis
             var res = CallService(_rpcUrl, new JsonRpcRequest
             {
                 Method = NeoRpcMethod.getblockcount
-            },true);
+            });
 
             if (res != null)
             {
-                return int.Parse(res);
+                return int.Parse(res.ToString());
             }
                 
             return 0;
         }
 
-        public byte[] GetRawBlock(int index)
+        public object GetRawBlock(int index, bool verbose)
         {
-            var res = CallService(_rpcUrl, new JsonRpcRequest
+            var request = new JsonRpcRequest
             {
                 Method = NeoRpcMethod.getblock,
                 Parameters = new List<object> { index }
-            }, false);
+            };
+            if (verbose)
+                request.Parameters.Add(1); //,1 = verbose
 
+            var res = CallService(_rpcUrl, request);
             if (res != null)
-            {
-                dynamic json = JsonConvert.DeserializeObject(res);
-                return Encoding.ASCII.GetBytes(json.result.ToString());
+            {          
+                if (verbose)
+                    return res.ToString().Replace("\r\n", "").Replace(" ", ""); //Sanitize against newline and whitespace
+                else
+                    return Encoding.ASCII.GetBytes(res.ToString());
             }
 
             return null;
@@ -53,19 +58,9 @@ namespace neo_to_redis
 
         public Block GetBlock(int index)
         {
-            var res = CallService(_rpcUrl, new JsonRpcRequest
-            {
-                Method = NeoRpcMethod.getblock,
-                Parameters = new List<object> { index, 1 } //,1 = verbose mode
-            }, true);
-
-            if (res != null)
-            {
-                var block = JsonConvert.DeserializeObject<Block>(res);
-                return block;
-            }
-                
-            return null;
+            //Get the raw JSON
+            var res = GetRawBlock(index, true);
+            return JsonConvert.DeserializeObject<Block>(res.ToString());
         }
 
         public Asset GetAsset(string hash)
@@ -74,15 +69,15 @@ namespace neo_to_redis
             {
                 Method = NeoRpcMethod.getassetstate,
                 Parameters = new List<object> { hash }
-            }, true);
+            });
 
             if (res != null)
-                return JsonConvert.DeserializeObject<Asset>(res);
+                return JsonConvert.DeserializeObject<Asset>(res.ToString());
 
             return null;
         }
 
-        private string CallService(string url, JsonRpcRequest request, bool getJson)
+        private dynamic CallService(string url, JsonRpcRequest request)
         {
             using (var client = new WebClient { Encoding = System.Text.Encoding.UTF8 })
             {
@@ -90,16 +85,12 @@ namespace neo_to_redis
                 var serializedRequest = JsonConvert.SerializeObject(request);
                 var result = client.UploadString(url, serializedRequest);
 
-                //Just return the raw result
-                if (!getJson)
-                    return result;
-
                 var json = (dynamic)JsonConvert.DeserializeObject(result);
                 if (json != null) {
                     if(json.error != null)
                         throw new Exception(json.message);
                     else if(json.result != null)
-                        return json.result.ToString().Replace("\r\n", "").Replace(" ",""); //Sanitize against CR / NL and whitespace?
+                        return json.result;
                 }
             }
 
