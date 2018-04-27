@@ -9,9 +9,14 @@ namespace neo_to_redis
     {
         private IDatabase _redisDb;
 
-        public RedisStreamsHelper(ConnectionMultiplexer redis)
+        /// <summary>
+        /// Creates an instance of the RedisStreamsHelper that will wrap all Redis Streams API interaction
+        /// </summary>
+        /// <param name="redis">The redis connection to use</param>
+        /// <param name="dbNumber">The database number to use</param>
+        public RedisStreamsHelper(ConnectionMultiplexer redis, int dbNumber = 0)
         {
-            _redisDb = redis.GetDatabase();
+            _redisDb = redis.GetDatabase(dbNumber);
         }
 
         /// <summary>

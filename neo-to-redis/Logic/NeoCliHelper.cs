@@ -14,11 +14,20 @@ namespace neo_to_redis
     {
         private string _rpcUrl;
 
+        /// <summary>
+        /// Creates an instance of the NeoCliHelper to wrap all interaction with neo-cli
+        /// </summary>
+        /// <param name="rpcUrl">The neo-cli RPC url to use</param>
         public NeoCliHelper(string rpcUrl)
         {
             _rpcUrl = rpcUrl;
         }
 
+
+        /// <summary>
+        /// Retrieves the total number of blocks
+        /// </summary>
+        /// <returns>Total number of blocks</returns>
         public int GetBlockCount()
         {
             var res = CallService(_rpcUrl, new JsonRpcRequest
@@ -34,6 +43,12 @@ namespace neo_to_redis
             return 0;
         }
 
+        /// <summary>
+        /// Retrieves an object that is the raw data of the block received from neo-cli
+        /// </summary>
+        /// <param name="index">Block index</param>
+        /// <param name="verbose">Whether or not to make a verbose request to neo-cli (will return JSON vs binary payload)</param>
+        /// <returns>Object (byte[] or string) representing the raw block data received from neo-cli</returns>
         public object GetRawBlock(int index, bool verbose)
         {
             var request = new JsonRpcRequest
@@ -56,6 +71,13 @@ namespace neo_to_redis
             return null;
         }
 
+
+        /// <summary>
+        /// Retrieves a block from neo-cli deserialized from the raw data into the object model
+        /// </summary>
+        /// <param name="index">Block index</param>
+        /// <param name="json">Use json data payload and deserialization instead of binary payload and deserialization</param>
+        /// <returns>The deserialized Block object</returns>
         public Block GetBlock(int index, bool json)
         {
             if (json)
@@ -71,6 +93,11 @@ namespace neo_to_redis
             }
         }
 
+        /// <summary>
+        /// Retrieves info about an asset from neo-cli
+        /// </summary>
+        /// <param name="hash">Hash of the asset to retrieve</param>
+        /// <returns>The deserialized Asset object</returns>
         public Asset GetAsset(string hash)
         {
             var res = CallService(_rpcUrl, new JsonRpcRequest
@@ -85,6 +112,12 @@ namespace neo_to_redis
             return null;
         }
 
+        /// <summary>
+        /// Make the call to the neo-cli RPC service for the specified request
+        /// </summary>
+        /// <param name="url">The URL of the RPC endpoint</param>
+        /// <param name="request">The JsonRpcRequest to use in making the request</param>
+        /// <returns>Dynamic object representing the json result field</returns>
         private dynamic CallService(string url, JsonRpcRequest request)
         {
             using (var client = new WebClient { Encoding = System.Text.Encoding.UTF8 })
@@ -104,31 +137,5 @@ namespace neo_to_redis
 
             return null;
         }
-    }
-
-    [Serializable]
-    public class JsonRpcRequest
-    {
-        [JsonProperty("jsonrpc")]
-        public string JsonRpcVersion = "2.0";
-
-        [JsonProperty("method")]
-        public NeoRpcMethod Method = NeoRpcMethod.none;
-
-        [JsonProperty("params")]
-        public List<object> Parameters = new List<object>();
-
-        [JsonProperty("id")]
-        public int Id = 1;
-    }
-
-    [Serializable]
-    [JsonConverter(typeof(StringEnumConverter))]
-    public enum NeoRpcMethod
-    {
-        none,
-        getassetstate,
-        getblockcount,
-        getblock
     }
 }
