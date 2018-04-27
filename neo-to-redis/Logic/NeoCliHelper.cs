@@ -24,7 +24,7 @@ namespace neo_to_redis
             var res = CallService(_rpcUrl, new JsonRpcRequest
             {
                 Method = NeoRpcMethod.getblockcount
-            });
+            },true);
 
             if (res != null)
             {
@@ -34,13 +34,30 @@ namespace neo_to_redis
             return 0;
         }
 
+        public byte[] GetRawBlock(int index)
+        {
+            var res = CallService(_rpcUrl, new JsonRpcRequest
+            {
+                Method = NeoRpcMethod.getblock,
+                Parameters = new List<object> { index }
+            }, false);
+
+            if (res != null)
+            {
+                dynamic json = JsonConvert.DeserializeObject(res);
+                return Encoding.ASCII.GetBytes(json.result.ToString());
+            }
+
+            return null;
+        }
+
         public Block GetBlock(int index)
         {
             var res = CallService(_rpcUrl, new JsonRpcRequest
             {
                 Method = NeoRpcMethod.getblock,
                 Parameters = new List<object> { index, 1 } //,1 = verbose mode
-            });
+            }, true);
 
             if (res != null)
             {
@@ -57,7 +74,7 @@ namespace neo_to_redis
             {
                 Method = NeoRpcMethod.getassetstate,
                 Parameters = new List<object> { hash }
-            });
+            }, true);
 
             if (res != null)
                 return JsonConvert.DeserializeObject<Asset>(res);
@@ -65,15 +82,19 @@ namespace neo_to_redis
             return null;
         }
 
-        private string CallService(string url, JsonRpcRequest request)
+        private string CallService(string url, JsonRpcRequest request, bool getJson)
         {
             using (var client = new WebClient { Encoding = System.Text.Encoding.UTF8 })
             {
                 client.Headers[HttpRequestHeader.ContentType] = "application/json";
                 var serializedRequest = JsonConvert.SerializeObject(request);
-                var result = client.UploadString(url, serializedRequest); 
-                var json = (dynamic)JsonConvert.DeserializeObject(result);
+                var result = client.UploadString(url, serializedRequest);
 
+                //Just return the raw result
+                if (!getJson)
+                    return result;
+
+                var json = (dynamic)JsonConvert.DeserializeObject(result);
                 if (json != null) {
                     if(json.error != null)
                         throw new Exception(json.message);
