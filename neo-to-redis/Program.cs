@@ -42,18 +42,26 @@ namespace neo_to_redis
 
                 //Get the raw neo-cli
                 var jsonRaw = (string)_neo.GetRawBlock(index, true);
-                var rawBlock = (byte[])_neo.GetRawBlock(index, false);
+                var bytesRaw = (byte[])_neo.GetRawBlock(index, false);
+
+
 
                 //Get the converted json block (test our json serializers)
-                var jsonBlock = _neo.GetBlock(index);
-                Console.WriteLine("-Retrieved Hash:" + jsonBlock.Hash + ", Raw Length: " + rawBlock.Length);
+                var jsonBlock = _neo.GetBlock(index, true);
+                Console.WriteLine("-Retrieved Hash:" + jsonBlock.Hash + ", Raw Length: " + bytesRaw.Length);
 
                 //Write the raw block to the Db
-                _redis.Set(jsonBlock.Hash + "-RAW", rawBlock);
+                _redis.Set(jsonBlock.Hash + "-RAW-R", bytesRaw);
                 Console.WriteLine("-Wrote Raw Bytes to DB - Key: " + jsonBlock.Hash + "-RAW");
 
+                //TODO: Get this working to test the byte[] -> object -> byte[] serialization
+                //Write the converted bytes block to the Db
+                //var bytesBlock = _neo.GetBlock(index, false);
+                //_redis.Set(jsonBlock.Hash + "-RAW-S", BinarySerializer.Serialize<byte[]>(bytesBlock);
+                //Console.WriteLine("-Wrote Converted Bytes to DB - Key: " + jsonBlock.Hash + "-RAW-S");
+
                 //Write the raw block to the Stream
-                var result = _redisStream.XAdd("NeoTestnet", null, jsonBlock.Hash, rawBlock);
+                var result = _redisStream.XAdd("NeoTestnet", null, jsonBlock.Hash, bytesRaw);
                 Console.WriteLine("-Wrote Raw Bytes to Stream - EntryId (auto gen): " + result);
 
                 //Write the raw json block to the Db

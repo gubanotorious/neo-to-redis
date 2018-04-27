@@ -56,11 +56,19 @@ namespace neo_to_redis
             return null;
         }
 
-        public Block GetBlock(int index)
+        public Block GetBlock(int index, bool json)
         {
-            //Get the raw JSON
-            var res = GetRawBlock(index, true);
-            return JsonConvert.DeserializeObject<Block>(res.ToString());
+            if (json)
+            {
+                string rawJson = (string)GetRawBlock(index, true);
+                return JsonConvert.DeserializeObject<Block>(rawJson);
+            }
+            else
+            {
+                //res is the raw bytes
+                byte[] rawBytes = (byte[])GetRawBlock(index, false);
+                return BinarySerializer.Deserialize<Block>(rawBytes);
+            }
         }
 
         public Asset GetAsset(string hash)

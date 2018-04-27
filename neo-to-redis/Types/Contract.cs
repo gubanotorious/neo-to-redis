@@ -37,24 +37,31 @@ namespace neo_to_redis
             }
         }
 
+        [BinaryProperty(1)]
         [JsonProperty("code")]
         public Code Code { get; set; }
 
+        [BinaryProperty(2)]
         [JsonProperty("needstorage")]
         public string NeedStorage;
 
+        [BinaryProperty(3)]
         [JsonProperty("name")]
         public string Name;
 
+        [BinaryProperty(4)]
         [JsonProperty("version")]
         public string Version;
 
+        [BinaryProperty(5)]
         [JsonProperty("author")]
         public string Author;
 
+        [BinaryProperty(6)]
         [JsonProperty("email")]
         public string Email;
 
+        [BinaryProperty(7)]
         [JsonProperty("description")]
         public string Description;
     }
