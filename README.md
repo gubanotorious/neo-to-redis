@@ -11,6 +11,6 @@ This will read blocks from [neo-cli](https://github.com/neo-project/neo-cli) and
 <img src="NeoRedisStreams.JPG" width="650"/>
 
 ## Requirements
-- [neo-cli](https://github.com/neo-project/neo-cli)running to provide the NEO Blockchain data.
+- [neo-cli](https://github.com/neo-project/neo-cli) running to provide the NEO Blockchain data.
 - [redis-unstable-docker](https://github.com/gubanotorious/redis-unstable-docker) running for Redis DB and Redis Streams API.
 - [Redis Desktop Manager](https://redisdesktop.com/)(Optional) is a convenient GUI to interact with your Redis DB (note: you will need to still use the redis-cli natively to access Redis Streams as of the time of writing)
