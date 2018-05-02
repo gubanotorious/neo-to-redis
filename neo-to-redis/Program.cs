@@ -55,7 +55,7 @@ namespace neo_to_redis
                 //TODO: Get this working to test the byte[] -> object -> byte[] serialization
                 //Write the converted bytes block to the Db
                 //var bytesBlock = _neo.GetBlock(index, false);
-                //_redis.Set(jsonBlock.Hash + "-RAW-S", BinarySerializer.Serialize<byte[]>(bytesBlock);
+                //_redis.Set(jsonBlock.Hash + "-RAW-S", BinarySerializer.Serialize(bytesBlock);
                 //Console.WriteLine("-Wrote Converted Bytes to DB - Key: " + jsonBlock.Hash + "-RAW-S");
 
                 //Write the raw block to the Stream

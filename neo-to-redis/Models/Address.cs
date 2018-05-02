@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Linq;
+﻿using NeoSharp.Core.Serializers;
 using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
 
 namespace neo_to_redis
 {
