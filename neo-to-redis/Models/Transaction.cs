@@ -46,19 +46,19 @@ namespace neo_to_redis
 
         [BinaryProperty(10)]
         [JsonProperty("attributes")]
-        public List<TransactionAttribute> Attributes = new List<TransactionAttribute>();
+        public TransactionAttribute[] Attributes = new TransactionAttribute[0];
 
         [BinaryProperty(11)]
         [JsonProperty("vin")]
-        public List<CoinReference> Inputs = new List<CoinReference>();
+        public CoinReference[] Inputs = new CoinReference[0];
 
         [BinaryProperty(12)]
         [JsonProperty("vout")]
-        public List<TransactionOutput> Outputs = new List<TransactionOutput>();
+        public TransactionOutput[] Outputs = new TransactionOutput[0];
 
         [BinaryProperty(13)]
         [JsonProperty("scripts")]
-        public List<Witness> Scripts;
+        public Witness[] Scripts;
 
         //Enrollment
         [BinaryProperty(14)]
@@ -83,7 +83,7 @@ namespace neo_to_redis
         //Claim
         [BinaryProperty(18)]
         [JsonProperty("claims")]
-        public List<CoinReference> Claims = new List<CoinReference>();
+        public CoinReference[] Claims = new CoinReference[0];
 
         //Publish
         [BinaryProperty(19)]

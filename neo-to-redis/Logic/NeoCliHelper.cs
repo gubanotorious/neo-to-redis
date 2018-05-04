@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Net;
+using System.Reflection;
 using System.Text;
 
 namespace neo_to_redis
@@ -18,6 +19,7 @@ namespace neo_to_redis
         public NeoCliHelper(string rpcUrl)
         {
             _rpcUrl = rpcUrl;
+            BinarySerializer.CacheTypesOf(Assembly.GetExecutingAssembly());
         }
 
 

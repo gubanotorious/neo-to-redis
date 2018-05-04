@@ -130,7 +130,11 @@ namespace NeoSharp.Core.Serializers
                     ReadValue = new delReadValue(GetBoolValue);
                     WriteValue = new delWriteValue(SetBoolValue);
                 }
-                else throw (new NotImplementedException());
+                else
+                {
+                    //throw (new NotImplementedException());
+                }
+
 
                 if (array)
                 {

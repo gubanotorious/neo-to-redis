@@ -80,7 +80,7 @@ namespace NeoSharp.Core.Serializers
             // Search in cache
 
             if (!Cache.TryGetValue(typeof(T), out BinarySerializerCache cache))
-                throw (new NotImplementedException());
+                throw new Exception("Type not found in cache.  Please ensure you use CacheTypesOf prior to calling this or verify the specified type is implemented.");
 
             // Deserialize
 

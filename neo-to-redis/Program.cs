@@ -16,13 +16,15 @@ namespace neo_to_redis
 
         static void Main(string[] args)
         {
-            var redisConnectionMultiplexer = ConnectionMultiplexer.Connect(_redisConn);
+            //var redisConnectionMultiplexer = ConnectionMultiplexer.Connect(_redisConn);
 
-            _redis = new RedisDbHelper(redisConnectionMultiplexer);
-            _redisStream = new RedisStreamsHelper(redisConnectionMultiplexer);
+            //_redis = new RedisDbHelper(redisConnectionMultiplexer);
+            //_redisStream = new RedisStreamsHelper(redisConnectionMultiplexer);
             _neo = new NeoCliHelper(_neoConn);
 
-            CopyBlocks(0);
+            //CopyBlocks(0);
+
+            var bytesBlock = _neo.GetBlock(50, false);
         }
 
         static void CopyBlocks(int start)

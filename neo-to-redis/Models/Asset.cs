@@ -38,6 +38,6 @@ namespace neo_to_redis
 
         [BinaryProperty(8)]
         [JsonProperty("transactions")]
-        public List<Transaction> Transactions = new List<Transaction>();
+        public Transaction[] Transactions = new Transaction[0];
     }
 }

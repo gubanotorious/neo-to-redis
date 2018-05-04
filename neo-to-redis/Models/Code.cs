@@ -22,6 +22,6 @@ namespace neo_to_redis
 
         [BinaryProperty(4)]
         [JsonProperty("parameters")]
-        public List<string> Parameters;
+        public string[] Parameters = new string[0];
     }
 }

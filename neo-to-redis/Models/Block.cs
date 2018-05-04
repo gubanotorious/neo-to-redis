@@ -51,7 +51,7 @@ namespace neo_to_redis
 
         [BinaryProperty(11)]
         [JsonProperty("tx")]
-        public List<Transaction> Transactions = new List<Transaction>();
+        public Transaction[] Transactions = new Transaction[0];
 
         [BinaryProperty(12)]
         [JsonProperty("script")]
@@ -67,20 +67,20 @@ namespace neo_to_redis
         {
             get
             {
-                return Transactions.Count;
+                return Transactions.Length;
             }
         }
 
         [BinaryProperty(15)]
         [JsonProperty("txhashes")]
-        public List<string> TxHashes
+        public string[] TxHashes
         {
             get
             {
-                if(Transactions != null)
-                    return Transactions.Select(h => h.BlockHash).ToList();
+                if (Transactions != null)
+                    return Transactions.Select(h => h.BlockHash).ToArray();
 
-                return new List<string>();
+                return new string[0];
             }
         }
     }

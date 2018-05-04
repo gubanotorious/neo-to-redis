@@ -14,11 +14,11 @@ namespace neo_to_redis
 
         [BinaryProperty(2)]
         [JsonProperty("transactions")]
-        public List<Transaction> Transactions;
+        public Transaction[] Transactions = new Transaction[0];
 
         [BinaryProperty(3)]
         [JsonProperty("coins")]
-        public List<AddressCoin> Coins;
+        public AddressCoin[] Coins = new AddressCoin[0];
 
         [BinaryProperty(4)]
         [JsonProperty("firsttimestamp")]

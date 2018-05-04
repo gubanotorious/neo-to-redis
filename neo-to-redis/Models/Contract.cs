@@ -22,7 +22,7 @@ namespace neo_to_redis
                 return Code.Script;
             }
         }
-        public List<string> Parameters
+        public string[] Parameters
         {
             get
             {
